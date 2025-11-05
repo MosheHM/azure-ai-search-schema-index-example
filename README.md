@@ -500,7 +500,7 @@ The semantic configuration prioritizes fields for AI-powered ranking:
 ```python
 from azure.search.documents import SearchClient
 from azure.core.credentials import AzureKeyCredential
-import openai
+from openai import OpenAI
 
 # Initialize clients
 search_client = SearchClient(
@@ -511,11 +511,13 @@ search_client = SearchClient(
 
 # Generate embeddings (using OpenAI)
 def get_embedding(text: str) -> list:
-    response = openai.Embedding.create(
+    from openai import OpenAI
+    client = OpenAI()
+    response = client.embeddings.create(
         model="text-embedding-ada-002",
         input=text
     )
-    return response['data'][0]['embedding']
+    return response.data[0].embedding
 
 # Prepare document
 document = {
